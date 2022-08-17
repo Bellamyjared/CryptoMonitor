@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <title>Asic Miner Information</title>
+
+    <style>
+        body {
+            background-color: #202124;
+            color: rgb(240, 240, 240);
+            font-family: Poppins;
+            font-size: 20px;
+            width: 95vw;
+
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            font-size: 30px;
+            padding-top: 2em;
+            padding-bottom: 2em;
+            width: 75%;
+            max-width: 1000px;
+            height: auto;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .warning {
+            font-size: 2em;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .container {
+            background-color: #161618;
+            border-radius: 2em;
+            margin: 1em;
+            padding: 1em;
+            display: grid;
+            width: 300px;
+            justify-content: center;
+
+
+
+        }
+
+        .title {
+            display: flex;
+            padding-bottom: .7em;
+            justify-content: center;
+        }
+
+        .ip {
+            padding-right: 2em;
+            padding-left: 1em;
+        }
+
+        .information {
+            display: grid;
+        }
+
+
+        .hashrateNum {
+            display: flex;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="online">
+            Online <br />
+            {{request[1]}} / {{request[2]}}
+        </div>
+        <div class="warning">
+            {{request[3]}}
+        </div>
+    </div>
+    <div class="content">
+        {% for miners in request[0] %}
+        {% for miner in miners %}
+        <div class="container">
+            <div class="title">
+                <div class="ip">{{miner[0]['ip']}}</div>
+
+                {% if miner[1]['status'] == 'error' or miner[2]['data'] == 'error' %}
+                <div class="status">❌</div>
+
+            </div>
+            {% else %}
+            <div class="status">✔️</div>
+
+        </div>
+        <div class="model">{{miner[1]['status'][0]['model']}}</div>
+        <div class="information">
+
+            <div class="hashrate">Hashrate : <div class="hashrateNum">{{miner[2]['data'][0]['data'][0]['hashrate']}}
+                </div>
+            </div>
+            <div class="av_hashrate">Av_Hashrate : <div class="hashrateNum">
+                    {{miner[2]['data'][0]['data'][0]['av_hashrate']}}</div>
+            </div>
+            <div class="temp">Temp : {{miner[2]['data'][0]['data'][0]['temp']}}</div>
+            <div class="rejected">Rejected : {{miner[2]['data'][0]['data'][0]['rejected']}}</div>
+
+
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+    {% endfor %}
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>
